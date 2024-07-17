@@ -9,22 +9,17 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 
 int robot_goal_type = my_robot_interfaces::RobotMoveState::PICKUP;
 
-double current_position[2] = {0, 0};
+double pick_up[2] = {0, -2};
+double drop_off[2] = {0, 0};
 
-void visualization_marker_callback(visualization_msgs::Marker Marker)
+void move_robot(double *position)
 {
-    // Do nothing if target position is the same as current position
-    if(current_position[0] == Marker.pose.position.x && current_position[1] == Marker.pose.position.y)
-    {
-        return;
-    }
-
     ros::NodeHandle n;
     // Publisher to notify add marker node when pick up is successful or not
     ros::Publisher pub = n.advertise<my_robot_interfaces::RobotMoveState>("/my_robot_interfaces/robot_move_state", 10);
 
-    ROS_INFO("Position x: %f", Marker.pose.position.x);
-    ROS_INFO("Position y: %f", Marker.pose.position.y);
+    ROS_INFO("Position x: %f", position[0]);
+    ROS_INFO("Position y: %f", position[1]);
     //tell the action client that we want to spin a thread by default
     MoveBaseClient ac("move_base", true);
 
@@ -40,9 +35,9 @@ void visualization_marker_callback(visualization_msgs::Marker Marker)
     goal.target_pose.header.stamp = ros::Time::now();
 
     // Define a position and orientation for the robot to reach
-    goal.target_pose.pose.position.x = Marker.pose.position.x;
-    goal.target_pose.pose.position.y = Marker.pose.position.y;
-    goal.target_pose.pose.position.z = Marker.pose.position.z;
+    goal.target_pose.pose.position.x = position[0];
+    goal.target_pose.pose.position.y = position[1];
+    goal.target_pose.pose.position.z = 0;
     goal.target_pose.pose.orientation.w = 1;
 
     // Send the goal position and orientation for the robot to reach
@@ -73,9 +68,6 @@ void visualization_marker_callback(visualization_msgs::Marker Marker)
             msg.robot_goal_reached = true;
             pub.publish(msg);
         }
-
-        current_position[0] = Marker.pose.position.x;
-        current_position[1] = Marker.pose.position.y;
     }
     else
     {
@@ -91,8 +83,13 @@ int main(int argc, char** argv){
     ros::init(argc, argv, "pick_objects");
 
     ros::NodeHandle n;
-    // subscribe to marker topic
-    ros::Subscriber sub = n.subscribe("visualization_marker", 10, visualization_marker_callback);
+
+    /* Go to pickup location */
+    move_robot(pick_up);
+    
+    sleep(5);
+    /* Go to dropoff location */
+    move_robot(drop_off);
 
     // Spin so that the terminal window will not close after execution. Stop script file to stop execution
     ros::spin();

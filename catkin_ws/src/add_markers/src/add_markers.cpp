@@ -37,7 +37,7 @@ visualization_msgs::Marker marker;
 double pick_up[2] = {0, -2};
 double drop_off[2] = {0, 0};
 
-void set_marker_pose(double *pose, bool delete_marker)
+void set_marker_pose(double *posittion, bool delete_marker)
 {
     ros::NodeHandle n;
     ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
@@ -73,8 +73,8 @@ void set_marker_pose(double *pose, bool delete_marker)
         marker.action = visualization_msgs::Marker::ADD;
 
     // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-    marker.pose.position.x = pose[0];
-    marker.pose.position.y = pose[1];
+    marker.pose.position.x = posittion[0];
+    marker.pose.position.y = posittion[1];
     marker.pose.position.z = 0;
     marker.pose.orientation.x = 0.0;
     marker.pose.orientation.y = 0.0;
