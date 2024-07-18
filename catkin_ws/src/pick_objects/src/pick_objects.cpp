@@ -1,7 +1,6 @@
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
-#include <visualization_msgs/Marker.h>
 #include <my_robot_interfaces/RobotMoveState.h>
  
 // Define a client for to send goal requests to the move_base server through a SimpleActionClient
@@ -81,8 +80,6 @@ void move_robot(double *position)
 int main(int argc, char** argv){
     // Initialize the pick_objects node
     ros::init(argc, argv, "pick_objects");
-
-    ros::NodeHandle n;
 
     /* Go to pickup location */
     move_robot(pick_up);

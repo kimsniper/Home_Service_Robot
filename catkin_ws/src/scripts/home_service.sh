@@ -4,7 +4,7 @@ sleep 15
 xterm  -e  " source ../../devel/setup.bash && roslaunch my_robot amcl.launch " & 
 sleep 5
 xterm  -e  " source ../../devel/setup.bash && roslaunch my_robot view_navigation.launch " &
-sleep 10
-xterm  -e  " source ../../devel/setup.bash && rosrun add_markers add_markers " &
 sleep 5
+xterm  -e  " source ../../devel/setup.bash && roslaunch my_robot add_markers.launch " &
+sleep 3
 xterm  -e  " source ../../devel/setup.bash && rosrun pick_objects pick_objects "
