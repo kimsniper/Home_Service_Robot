@@ -34,8 +34,8 @@
 
 visualization_msgs::Marker marker;
 
-double pick_up[2] = {0, -2};
-double drop_off[2] = {0, 0};
+double pick_up[2] = {2, -4};
+double drop_off[2] = {2, -7};
 
 void set_marker_pose(double *posittion, bool delete_marker)
 {
