@@ -8,8 +8,8 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 
 int robot_goal_type = my_robot_interfaces::RobotMoveState::PICKUP;
 
-double pick_up[2] = {2, -4};
-double drop_off[2] = {2, -7};
+double pick_up[2] = {-0.5, -4};
+double drop_off[2] = {-0.5, -7};
 
 void move_robot(double *position)
 {

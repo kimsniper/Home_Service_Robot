@@ -1,7 +1,7 @@
 <launch>
   <arg name="add_marker_simulation" default="false"/>  ...
   <node pkg="add_markers" type="add_markers" name="add_markers">
-    <param name="add_marker_simulation_param" value="$(arg add_marker_simulation)"/>  
+    <param name="add_marker_simulation" value="$(arg add_marker_simulation)"/>  
   </node>
 
 </launch>

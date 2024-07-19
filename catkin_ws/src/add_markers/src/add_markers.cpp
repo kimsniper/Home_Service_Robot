@@ -2,11 +2,12 @@
 #include <visualization_msgs/Marker.h>
 #include <nav_msgs/Odometry.h>
 #include <my_robot_interfaces/RobotMoveState.h>
+#include <xmlrpcpp/XmlRpcValue.h>
 
 visualization_msgs::Marker marker;
 
-double pick_up[2] = {2, -4};
-double drop_off[2] = {2, -7};
+double pick_up[2] = {-0.5, -4};
+double drop_off[2] = {-0.5, -7};
 
 void set_marker_pose(double *posittion, bool delete_marker)
 {
@@ -95,6 +96,7 @@ void robot_state(my_robot_interfaces::RobotMoveState msg)
 
 void marker_simulation()
 {
+    sleep(5);
     ROS_INFO("Object picked up successfully");
     set_marker_pose(pick_up, true);
     sleep(5);
@@ -113,9 +115,12 @@ int main( int argc, char** argv )
 
     set_marker_pose(pick_up, false);
 
-    bool _add_marker_simulation;
+    bool _add_marker_simulation = false;
+    XmlRpc::XmlRpcValue add_marker_simulation;
     
-    n.getParam("add_marker_simulation_param", _add_marker_simulation);
+    n.getParam("/add_markers/add_marker_simulation", add_marker_simulation);
+
+    _add_marker_simulation = add_marker_simulation;
 
     if(_add_marker_simulation)
     {
